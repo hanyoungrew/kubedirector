@@ -232,6 +232,20 @@ func GetKDConfig(
 	return result, err
 }
 
+// GetNode finds the k8s Node with the given name (namespace unnecessary).
+func GetNode(
+	nodeName string,
+) (*corev1.Node, error) {
+
+	result := &corev1.Node{}
+	err := shared.Get(
+		context.TODO(),
+		types.NamespacedName{Name: nodeName},
+		result,
+	)
+	return result, err
+}
+
 // GetStorageClass fetches the storage class resource with a given name.
 func GetStorageClass(
 	storageClassName string,
