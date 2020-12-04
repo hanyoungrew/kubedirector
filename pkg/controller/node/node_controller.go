@@ -20,7 +20,6 @@ import (
 	"time"
 
 	"github.com/bluek8s/kubedirector/pkg/shared"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -92,6 +91,7 @@ func (r *ReconcileNode) Reconcile(request reconcile.Request) (reconcile.Result, 
 
 	// Fetch the Node instance.
 	node := &corev1.Node{}
+
 	err := shared.Get(context.TODO(), request.NamespacedName, node)
 	if err != nil {
 		if errors.IsNotFound(err) {

@@ -232,7 +232,7 @@ func GetKDConfig(
 	return result, err
 }
 
-// GetNode finds the k8s Node with the given name (namespace unnecessary).
+// GetNode finds the k8s Node with a given name.
 func GetNode(
 	nodeName string,
 ) (*corev1.Node, error) {
@@ -241,6 +241,20 @@ func GetNode(
 	err := shared.Get(
 		context.TODO(),
 		types.NamespacedName{Name: nodeName},
+		result,
+	)
+	return result, err
+}
+
+// GetPV finds the k8s PV with a given name.
+func GetPV(
+	pvName string,
+) (*corev1.PersistentVolume, error) {
+
+	result := &corev1.PersistentVolume{}
+	err := shared.Get(
+		context.TODO(),
+		types.NamespacedName{Name: pvName},
 		result,
 	)
 	return result, err

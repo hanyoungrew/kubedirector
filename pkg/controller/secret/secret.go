@@ -29,7 +29,7 @@ import (
 )
 
 const (
-	// secretType is a label placed on desired comfig maps that
+	// secretType is a label placed on desired config maps that
 	// we want to watch and propogate inside containers
 	secretType = shared.KdDomainBase + "/secretType"
 )
