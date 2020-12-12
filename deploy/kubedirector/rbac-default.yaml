@@ -21,10 +21,12 @@ rules:
   - ""
   resources:
   - pods
+  - nodes
   - services
   - services/finalizers
   - endpoints
   - persistentvolumeclaims
+  - persistentvolumes
   - events
   - configmaps
   - secrets

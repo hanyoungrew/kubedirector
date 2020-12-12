@@ -21,7 +21,6 @@ import (
 	"github.com/bluek8s/kubedirector/pkg/shared"
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	k8sClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -49,12 +48,11 @@ func (r *ReconcileNode) syncNode(
 			reqLogger,
 			node,
 			shared.EventReasonNode,
-			"node {%s} is unavailable, starting fencing/failover procedure",
+			"node {%s} is unavailable",
 			node.Name,
 		)
 
 		// assume that STONITH happens, either through fencing or by a STONITH daemon
-		// e: = fenceNode(reqLogger, node)
 		e := failoverNode(reqLogger, node)
 		return e
 	}
@@ -74,15 +72,11 @@ func failoverNode(
 		node.Name,
 	)
 
-	// what goes in observer/executor?
 	pods := &corev1.PodList{}
 	shared.List(context.TODO(), pods)
 
 	// For all pods running on node, patch all associated persistent volumes as RWX
 	// then force delete the pod to let the StatefulSet controller reschedule it where available.
-
-	// Alternatively, deleting the node object from Kubernetes will allow the
-	// associated volume to be reclaimed by the newly rescheudled pod again.
 
 	for _, pod := range pods.Items {
 		if pod.Spec.NodeName == node.Name {
@@ -142,5 +136,6 @@ func failoverNode(
 			)
 		}
 	}
+
 	return nil
 }
